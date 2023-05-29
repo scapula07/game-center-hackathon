@@ -2,20 +2,13 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-
-const transactionRoutes = require('./routes/transactionRoutes');
+const createRequest =require("./controllers/chainlinkExternalAdapter").createRequest
+const betRoutes = require('./routes/betRoutes');
 
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
-const admin = require("firebase-admin");
-const serviceAccount=require("./firebase/serviceAccount.json")
 
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    // databaseURL: "https://aadharcardscanner-72071.firebaseio.com",
-  });
 
 const app = express();
 
@@ -27,7 +20,15 @@ app.use(cors({
 // app.options('*', cors());
 app.use(express.static('./public'));
 
-app.use('/api/v1/transactions', transactionRoutes);
+app.post('/', (req, res) => {
+  console.log('POST Data: ', req.body)
+  createRequest(req.body, (status, result) => {
+    console.log('Result:mmmmmm ', result)
+    res.status(status).json(result)
+  })
+})
+
+app.use('/api/v1/bets', betRoutes);
 
 
 

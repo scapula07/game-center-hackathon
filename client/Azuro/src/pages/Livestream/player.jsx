@@ -1,12 +1,39 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {BsFillMicFill,BsFillCameraVideoFill} from "react-icons/bs"
 import {FaGamepad} from "react-icons/fa"
+import { Player } from '@livepeer/react';
+import {
+  LivepeerConfig,
+  createReactClient,
+  studioProvider,
+} from '@livepeer/react';
 
-export default function Player() {
+
+export default function LivePlayer() {
+  const [players,setPlayers]=useState([1])
+  let count=players.length >1 && "2"
   return (
-    <div className='h-3/5  w-full flex flex-col space-y-4'>
+    <div className='h-4/5  w-full flex flex-col space-y-4  '>
           <div className='h-full flex flex-col w-full rounded-lg ' style={{background:"#212044"}}>
-              
+            <div className={`mt-5 lg:mt-[33px] space-y-10 md:space-y-0 md:gap-5 lg:gap-6 grid grid-cols-${count} w-full h-full px-4`}>
+                 {players.map(()=>{
+                     return(
+                      <main className='h-full w-full'>
+                         <Player
+                            title={""}
+                            playbackId={""}
+                            autoPlay
+                       
+                         />
+                      </main>
+                     
+                     )
+                 })
+                 
+                 }
+
+            </div>
+       
 
                 
           </div>

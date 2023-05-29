@@ -8,19 +8,31 @@ import Layout from './Layout'
 import LiveStreaming from './pages/Livestream'
 import Tournament from './pages/Tournament'
 import Gameroom from './pages/Gameroom'
+import { livepeerClient } from './livepeerConfigUtil'
+import {
+  LivepeerConfig,
+  createReactClient,
+  studioProvider,
+} from '@livepeer/react';
+
+
 
 function App() {
 
 
   return (
     <div className="App ">
-         <Routes>
-            <Route exact path="/"  element={ <Layout ><Home   /></Layout>} />
-            <Route exact path="/tournament"  element={ <Layout >< Tournament  /></Layout>} />
-            <Route exact path="/livestreaming"  element={ <Layout >< LiveStreaming  /></Layout>} />
-            <Route exact path="/gameroom"  element={ <Layout >< Gameroom  /></Layout>} />
-          
-       </Routes>
+        <LivepeerConfig client={livepeerClient}>
+            <Routes>
+                <Route exact path="/"  element={ <Layout ><Home   /></Layout>} />
+                <Route exact path="/tournament"  element={ <Layout >< Tournament  /></Layout>} />
+                <Route exact path="/livestreaming"  element={ <Layout >< LiveStreaming  /></Layout>} />
+                <Route exact path="/gameroom"  element={ <Layout >< Gameroom  /></Layout>} />
+              
+          </Routes>
+
+        </LivepeerConfig>
+        
      
     </div>
   )
