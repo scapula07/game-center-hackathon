@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const {createAllTournamentRequest,createAllBetRequest,createTournamentByIdRequest} =require("./controllers/Adapter")
+const {createAllTournamentRequest,createAllBetRequest,createTournamentByIdRequest,createTournamentOutcomeRequest} =require("./controllers/Adapter")
 const betRoutes = require('./routes/betRoutes');
 
 
@@ -44,6 +44,15 @@ app.post('/api/v1/tournaments-id', (req, res) => {
     res.status(status).json(result)
   })
 })
+
+app.post('/api/v1/tournaments-outcome', (req, res) => {
+  console.log('POST Data: ', req.body)
+  createTournamentOutcomeRequest(req.body, (status, result) => {
+    console.log('Result ', result)
+    res.status(status).json(result)
+  })
+})
+
 
 
 app.use('/api/v1/bets', betRoutes);

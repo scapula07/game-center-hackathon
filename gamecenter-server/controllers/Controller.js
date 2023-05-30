@@ -89,3 +89,44 @@ exports.getAllTournamentById= async (req, res, next) => {
 
 
 } 
+
+exports.getTournamentOutcomeById= async (req, res, next) => {
+
+  const {id} = req.headers;
+
+  
+  const tournamnetRef = db.collection('tournaments').doc(id);
+   const gameOutcome=0
+   const doc = await tournamnetRef.get();
+  try{
+  
+      if (!doc.exists) {
+        
+      } else {
+        console.log('Document data:', );
+        if(doc.data().outcome=="0pen"){
+          gameOutcome=0
+            
+        }else if(doc.data().outcome=="Draw"){
+          gameOutcome=1
+        }else if(doc.data().outcome==" Player1"){
+          gameOutcome=2
+        }else if(doc.data().outcome==" Player2"){
+          gameOutcome=3
+        }else if(doc.data().outcome=="Cancelled"){
+          gameOutcome=4
+        }
+        console.log(gameOutcome,"outcome")
+         res.status(200).json({
+          status: 'success',
+          message:{
+            outcome:gameOutcome
+            }
+        });
+    }
+    }catch(e){
+    console.log(e)
+    }
+
+
+}
