@@ -80,7 +80,7 @@ export default function LiveStreaming() {
           <div className='flex w-full h-full space-x-10'>
               <main className='h-screen rounded-md flex flex-col overflow-y-scroll'  style={{width:"65%"}}>
                 <div className='' style={{height:"120%"}}>
-                  <LivePlayer />
+                  <LivePlayer onGoingStreams={onGoingStreams}/>
                   <BetBoard />
                 </div>
 

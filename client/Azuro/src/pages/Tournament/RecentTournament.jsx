@@ -1,11 +1,33 @@
-import React ,{useState}from 'react'
+import React ,{useState,useEffect}from 'react'
 import {CiGrid2H} from "react-icons/ci"
 import game from "../../assets/valorant.jpeg"
 import Modal from '../../components/Modal'
 import {AiOutlineClose} from "react-icons/ai"
+import { collection, onSnapshot, doc, getDocs, query, orderBy, limit } from 'firebase/firestore'
 
 const Grid=()=>{
     const [trigger,setTrigger] =useState(false)
+    const [tournaments, setTournaments] = useState([])
+
+    useEffect(() => {
+        const getAllTournaments = async () => {
+          const q = query(collection(db, "tournaments"), orderBy("date", "desc"));
+          const querySnapshot = await getDocs(q);
+          const tournamentArray = []
+          // console.log(querySnapshot)
+          querySnapshot.docs.map((doc) => {
+            // console.log(doc.data())
+            tournamentArray.push({ ...doc.data(), id: doc.id })
+          
+    
+    
+          })
+          setTournaments(tournamentArray )
+        }
+        getAllTournaments()
+      }, [])
+
+
     return(
         <>
         <div className="mt-5 lg:mt-[33px] space-y-10 md:space-y-0 md:gap-5 lg:gap-6 md:grid grid-cols-2 lg:grid-cols-3 ">

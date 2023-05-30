@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const createRequest =require("./controllers/chainlinkExternalAdapter").createRequest
+const {createAllTournamentRequest,createAllBetRequest,createTournamentByIdRequest} =require("./controllers/Adapter")
 const betRoutes = require('./routes/betRoutes');
 
 
@@ -20,13 +20,31 @@ app.use(cors({
 // app.options('*', cors());
 app.use(express.static('./public'));
 
-app.post('/', (req, res) => {
+app.post('/api/v1/all-bets', (req, res) => {
   console.log('POST Data: ', req.body)
-  createRequest(req.body, (status, result) => {
+  createAllBetRequest(req.body, (status, result) => {
     console.log('Result:mmmmmm ', result)
     res.status(status).json(result)
   })
 })
+
+app.post('/api/v1/all-tournaments', (req, res) => {
+  console.log('POST Data: ', req.body)
+  createAllTournamentRequest(req.body, (status, result) => {
+    console.log('Result ', result)
+    res.status(status).json(result)
+  })
+})
+
+
+app.post('/api/v1/tournaments-id', (req, res) => {
+  console.log('POST Data: ', req.body)
+  createTournamentByIdRequest(req.body, (status, result) => {
+    console.log('Result ', result)
+    res.status(status).json(result)
+  })
+})
+
 
 app.use('/api/v1/bets', betRoutes);
 
