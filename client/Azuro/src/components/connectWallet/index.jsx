@@ -17,22 +17,13 @@ export default function ConnectWallet() {
     const [wallet, setWallet] = useState('')
     const [bananaWalletName,setWalletName]=useState()
  
-    const [account,setAccount]=useRecoilState(AccountState) 
+
     
-    const { isConnected } = useAccount();
+    const { isConnected ,address} = useAccount();
     const provider = useProvider();
     const {  signer } = useSigner({});
     
-    useEffect(()=>{
-      const getAddress=async()=>{
-        console.log(signer,"signer")
-        const account = await signer.getAddress();
-        console.log(account,acct)
   
-      }
-      getAddress()
-
-    },[isConnected ])
  
   return (
     

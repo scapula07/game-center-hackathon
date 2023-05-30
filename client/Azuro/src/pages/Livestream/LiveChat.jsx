@@ -3,7 +3,7 @@ import {BsEmojiSmile,BsCardImage} from "react-icons/bs"
  
 
 
-export default function LiveChat({messages,setMessage}) {
+export default function LiveChat({messages,setMessage,sendMessage}) {
   return (
     <div className='px-4 py-1 w-full h-full'>
 
@@ -44,7 +44,9 @@ export default function LiveChat({messages,setMessage}) {
                 <BsCardImage />
 
               </div>
-              <button className='text-sm font-semibold ' style={{color:"#324fe6"}} >
+              <button className='text-sm font-semibold ' style={{color:"#324fe6"}} 
+                onClick={sendMessage}
+              >
                 Send
               </button>
 

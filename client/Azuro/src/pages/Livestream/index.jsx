@@ -1,5 +1,7 @@
 import React,{useState,useRef,useEffect} from 'react'
-
+import contractAbi from "../../ContractAbi/gameBetting.json"
+import { useRecoilValue } from 'recoil'
+import { AccountState } from '../../recoil/globalState'
 import BetBoard from './BetBoard'
 import LiveChat from './LiveChat'
 import PlayerBoard from './playerBoard'
@@ -10,11 +12,13 @@ import {AiOutlineClose} from "react-icons/ai"
 import { collection, addDoc } from "firebase/firestore"; 
 import { db } from '../../firebase'
 import LivePlayer from "./player"
-
+import { usePrepareContractWrite,useContractWrite ,useWaitForTransaction,} from 'wagmi'
 import { io } from "socket.io-client";
+import { useAccount } from 'wagmi'
 
 export default function LiveStreaming() {
-
+  
+  const { isConnected ,address} = useAccount();
 
    const [leaderboard,setboard]=useState(false)
    const [trigger,setTrigger] =useState(false)
@@ -24,8 +28,20 @@ export default function LiveStreaming() {
    const [messages,setMessages]=useState([])
    const [message,setMessage]=useState([])
    const [onGoingStreams,setStreams]=useState([])
+  
    const socket = useRef();
   
+   const { config } = usePrepareContractWrite({
+      address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+      abi:contractAbi,
+      functionName: 'placeBet',
+  })
+
+  const { write ,data} = useContractWrite(config)
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  })
 
    useEffect(() => {
     const betArray=[]
@@ -55,24 +71,41 @@ export default function LiveStreaming() {
      }, []);
 
    console.log(bets)
+
+   console.log(data,isLoading, isSuccess,"txxx")
+
    const placeBet=async()=>{
+
+   
+      write?.({
+        args: [69],
+        from: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+        value: parseEther('0.01'),
+       })
+
     const bet={
-      amount:betAmount,
-      choiceOfPlayer:betChoice,
-      bettor:'000000',
-      date:new Date()
-    }
+       amount:betAmount,
+       choiceOfPlayer:betChoice,
+       bettor:address,
+       date:new Date()
+     }
     socket.current.emit("place bet",bet);
-    socket.current.emit("place bet",{sender:"",message:message});
+    // socket.current.emit("live chat",{sender:address,message:message});
+
+
     try{
       const docRef = await addDoc(collection(db, "bets"),bet);
-    }catch(e){
-      console.log(e)
-    }
+       
+     }catch(e){
+        console.log(e)
+      }
   
     setTrigger(false)
    }
 
+   const sendMessage=async()=>{
+
+   }
 
   return (
     <>
@@ -104,7 +137,7 @@ export default function LiveStreaming() {
                        {leaderboard?
                           <PlayerBoard bets={bets}/>
                           :
-                          <LiveChat messages={messages} setMessage={setMessage}/>
+                          <LiveChat messages={messages} setMessage={setMessage} sendMessage={sendMessage}/>
 
                        }
                       

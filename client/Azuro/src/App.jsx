@@ -29,14 +29,23 @@ import { polygonMumbai, optimismGoerli, goerli, gnosis, gnosisChiado  } from "@w
 import { publicProvider } from "wagmi/providers/public";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { BananaWallet } from '@rize-labs/banana-rainbowkit-plugin'
-
+import { jsonRpcProvider } from '@wagmi/core/providers/jsonRpc'
+// https://rpc.chiado.gnosis.gateway.fm
 function App() {
   const { chains, provider } = configureChains( 
    
-    [polygonMumbai, optimismGoerli, goerli, gnosis, gnosisChiado],
-    [publicProvider()]
+    [goerli,gnosisChiado],
+ 
+    [
+      jsonRpcProvider({
+        rpc: (chain) => ({
+          https: `https://rpc.${chain.id}.gateway.fm`
+         
+        }),
+      }),
+    ],
   );
-
+  console.log(chains,"chain")
   const connectors = connectorsForWallets([
     {
       groupName: "Recommended",
