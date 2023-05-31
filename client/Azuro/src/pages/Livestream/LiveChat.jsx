@@ -1,24 +1,30 @@
-import React from 'react'
+import React,{useRef,useState,useEffect} from 'react'
 import {BsEmojiSmile,BsCardImage} from "react-icons/bs"
+
  
 
 
-export default function LiveChat({messages,setMessage,sendMessage}) {
+export default function LiveChat({messages,setMessage,sendMessage,chatBox}) {
+   console.log(messages.length,"iii")
+   const [chats,setChat]=useState([])
+   useEffect(()=>{
+    setChat(messages)
+   },[messages.length])
   return (
     <div className='px-4 py-1 w-full h-full'>
 
 
-       <div className='h-4/5  py-2  overflow-y-scroll w-full'>
+       <div className='h-4/5  py-2 flex flex-col space-y-4  overflow-y-scroll w-full' ref={chatBox}>
         {
-          messages.map((message)=>{
+          chats.map((message)=>{
             return(
               <div className='flex items-center'>
                 <img />
-                <main className='flex flex-col'>
-                  <h5 className='text-slate-400 font-semibold'>
-                    {message?.sender}
+                <main className='flex flex-col space-y-0.5'>
+                  <h5 className='text-slate-400 font-semibold text-xs'>
+                    {message?.sender.slice(0,7) + "..." + message?.sender.slice(-4) }
                   </h5>
-                  <h5 className='text-white text-lg font-light'>
+                  <h5 className='text-slate-200  text-lg font-light text-sm'>
                      {message?.message}
                   </h5>
 
@@ -34,7 +40,7 @@ export default function LiveChat({messages,setMessage,sendMessage}) {
           <textarea 
               placeholder='Send message....'
               style={{background:"#212044"}}
-              className="text-white text-sm "
+              className="text-white text-xs outline-none "
 
               onChange={(e)=>setMessage(e.target.value)}
           />

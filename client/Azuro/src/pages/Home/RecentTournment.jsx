@@ -1,6 +1,7 @@
 import React from 'react'
 import tournament1 from "../../assets/img2.png"
 import tournament2 from "../../assets/img2.png"
+import { Link } from 'react-router-dom'
 
 const TournamentCard=({tournament})=>{
     return(
@@ -13,9 +14,11 @@ const TournamentCard=({tournament})=>{
                      <span>{tournament.title}</span> 
                      <span className='text-sm'> Play to win bet </span>
                     </h5>
+                    <Link to="/tournaments">
                     <button className='px-8 py-3 font-semibold rounded-xl hover:shadow-lg hover:shadow-blue-700' style={{background:"#1FBDC7"}} >
                         Join
                     </button>
+                    </Link>
                     </div>
                  
 

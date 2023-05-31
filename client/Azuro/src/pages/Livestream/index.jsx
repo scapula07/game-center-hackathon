@@ -28,7 +28,9 @@ export default function LiveStreaming() {
    const [messages,setMessages]=useState([])
    const [message,setMessage]=useState([])
    const [onGoingStreams,setStreams]=useState([])
-  
+
+   const chatBox=useRef()
+   
    const socket = useRef();
   
    const { config } = usePrepareContractWrite({
@@ -40,71 +42,74 @@ export default function LiveStreaming() {
   const { write ,data} = useContractWrite(config)
 
   const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash,
+       hash: data?.hash,
   })
-
+  // function scrollToBottom() {
+      
+  //     chatBox.current.scrollTop = chatBox.current.scrollHeight;
+  //    }
+ 
    useEffect(() => {
-    const betArray=[]
-    const liveMessages=[]
-    const onGoingStreams=[]
-    socket.current = io("ws://localhost:5003");
-    socket.current.on("place bet", (data) => {
-      console.log(data,"datata")
-      betArray.push(data)
-      setBets(betArray)
-   
-     });
+          const betArray=[]
+          const liveMessages=[]
+          const onGoingStreams=[]
+          socket.current = io("ws://localhost:5003");
+          socket.current.on("place bet", (data) => {
+            console.log(data,"datata")
+            betArray.push(data)
+            setBets(betArray)
+        
+          });
 
-     socket.current.on("live chat", (data) => {
-      console.log(data,"datata")
-      liveMessages.push(data)
-      setMessages(liveMessages)
-   
-     });
-     socket.current.on("create stream", (data) => {
-      console.log(data,"streams")
-      onGoingStreams.push(data)
-      setStreams(onGoingStreams)
-   
-     });
+          socket.current.on("live chat", (data) => {
+            console.log(data,"datata")
+            liveMessages.push(data)
+            setMessages(liveMessages)
+            // scrollToBottom()
+        
+          });
+          socket.current.on("create stream", (data) => {
+            console.log(data,"streams")
+            onGoingStreams.push(data)
+            setStreams(onGoingStreams)
+        
+          });
 
      }, []);
 
-   console.log(bets)
-
-   console.log(data,isLoading, isSuccess,"txxx")
+     console.log(messages,"mmm")
 
    const placeBet=async()=>{
 
    
-      write?.({
-        args: [69],
-        from: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
-        value: parseEther('0.01'),
-       })
+            write?.({
+              args: [69],
+              from: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+              value: parseEther('0.01'),
+            })
 
-    const bet={
-       amount:betAmount,
-       choiceOfPlayer:betChoice,
-       bettor:address,
-       date:new Date()
-     }
-    socket.current.emit("place bet",bet);
-    // socket.current.emit("live chat",{sender:address,message:message});
+          const bet={
+            amount:betAmount,
+            choiceOfPlayer:betChoice,
+            bettor:address,
+            date:new Date()
+          }
+          socket.current.emit("place bet",bet);
+          // socket.current.emit("live chat",{sender:address,message:message});
 
 
-    try{
-      const docRef = await addDoc(collection(db, "bets"),bet);
-       
-     }catch(e){
-        console.log(e)
-      }
-  
-    setTrigger(false)
+          try{
+            const docRef = await addDoc(collection(db, "bets"),bet);
+            
+          }catch(e){
+              console.log(e)
+            }
+        
+          setTrigger(false)
    }
 
    const sendMessage=async()=>{
-
+        socket.current.emit("live chat",{sender:address,message:message});
    }
 
   return (
@@ -112,7 +117,7 @@ export default function LiveStreaming() {
     <div className='h-screen py-8' >
           <div className='flex w-full h-full space-x-10'>
               <main className='h-screen rounded-md flex flex-col overflow-y-scroll'  style={{width:"65%"}}>
-                <div className='' style={{height:"120%"}}>
+                <div className='' style={{height:"70%"}}>
                   <LivePlayer onGoingStreams={onGoingStreams}/>
                   <BetBoard />
                 </div>
@@ -137,7 +142,7 @@ export default function LiveStreaming() {
                        {leaderboard?
                           <PlayerBoard bets={bets}/>
                           :
-                          <LiveChat messages={messages} setMessage={setMessage} sendMessage={sendMessage}/>
+                          <LiveChat messages={messages} setMessage={setMessage} sendMessage={sendMessage} chatBox={chatBox}/>
 
                        }
                       

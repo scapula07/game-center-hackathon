@@ -7,6 +7,7 @@ import {AiFillHome} from "react-icons/ai"
 import {AiOutlineHistory} from "react-icons/ai"
 import {RiMoonFill,RiVideoAddFill} from "react-icons/ri"
 import {GiTeacher} from "react-icons/gi"
+import { Link } from 'react-router-dom'
 
 
 export default function NavSideBar() {
@@ -15,9 +16,11 @@ export default function NavSideBar() {
          <div>
           
            <div className=' space-y-14 mt-9 flex flex-col justify-center items-center w-full'>
+            <Link to="/">
               <main className='bg-rose-900 rounded-full flex justify-center p-2 ' style={{background:"#324fe6"}} >
                  <BsFillGrid3X3GapFill className='text-xl'/>
               </main>
+              </Link>
 
                <main className=' bg-purple-900 py-4 space-y-8 px-4 flex flex-col rounded-full ' style={{background:"#212044"}}>
                   <RiVideoAddFill className='text-2xl' style={{color:"#68708c"}}/>

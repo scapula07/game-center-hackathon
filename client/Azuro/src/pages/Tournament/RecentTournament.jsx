@@ -4,7 +4,8 @@ import game from "../../assets/valorant.jpeg"
 import Modal from '../../components/Modal'
 import {AiOutlineClose} from "react-icons/ai"
 import { collection, onSnapshot, doc, getDocs, query, orderBy, limit } from 'firebase/firestore'
-
+import { Link } from 'react-router-dom'
+import { db } from '../../firebase'
 const Grid=()=>{
     const [trigger,setTrigger] =useState(false)
     const [tournaments, setTournaments] = useState([])
@@ -27,24 +28,29 @@ const Grid=()=>{
         getAllTournaments()
       }, [])
 
-
+      console.log(tournaments,"tournaments")
     return(
         <>
         <div className="mt-5 lg:mt-[33px] space-y-10 md:space-y-0 md:gap-5 lg:gap-6 md:grid grid-cols-2 lg:grid-cols-3 ">
-            {[1,2,3,4,5,6,7].map(()=>{
+            {tournaments.map((tournament)=>{
                  return(
                     <>
                     <div className='flex flex-col space-y-1 rounded-xl shadow-xl hover:shadow-blue-700' onClick={()=>setTrigger(true)}> 
                        
                        
-                       <img src={game}/>
+                       <img src={tournament?.img}/>
                        
 
                        <main className='flex flex-col py-2 space-y-1 px-4'>
-                          <h5 className='text-slate-300 text-xs'>Total bets:$10000</h5>
-                          <h5 className='text-sm font-semibold'>Valorant</h5>
+                          <h5 className='text-slate-300 text-xs'>Minimum bets:10 xDAI</h5>
+                          <h5 className='text-sm font-semibold'>{tournament?.name}</h5>
+                          {tournament?.outcome==="pending"?
+                               <h5 className='text-xs '>Live(ongoing)</h5>
+                               :
+                               <h5 className='text-xs '>Coming soon</h5>
+
+                          }
                         
-                          <h5 className='text-xs '>Live(ongoing)</h5>
 
                        </main>
 
@@ -66,9 +72,11 @@ const Grid=()=>{
                             <div className='relative'>
                                <img src={game} className="w-full h-60 "/>
                                 <div className='absolute z-20 bottom-0 py-4 right-0 px-4'>
+                                       <Link to={"/gameroom"}>
                                         <button className='px-6 py-2  rounded-xl font-semibold hover:shadow-blue-700  hover:shadow-lg' style={{background:"#1FBDC7"}} >
                                         Play
                                         </button>
+                                        </Link>
 
                                  </div>
                             </div>

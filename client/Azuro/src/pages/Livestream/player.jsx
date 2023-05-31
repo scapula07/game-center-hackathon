@@ -11,7 +11,7 @@ import {
 
 export default function LivePlayer({onGoingStreams}) {
   // const [players,setPlayers]=useState([1])
-  let count=onGoingStreams.length >1 && "2"
+  let count=onGoingStreams.length >1 ? "2":"1"
   return (
     <div className='h-4/5  w-full flex flex-col space-y-4  '>
           <div className='h-full flex flex-col w-full rounded-lg ' style={{background:"#212044"}}>

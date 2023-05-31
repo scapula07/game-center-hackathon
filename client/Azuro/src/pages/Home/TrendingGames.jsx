@@ -2,7 +2,7 @@ import React from 'react'
 import {BsFire} from "react-icons/bs"
 import game from "../../assets/valorant.jpeg"
 import {BsFillPlayFill} from "react-icons/bs"
-
+import { Link } from 'react-router-dom'
 
 export default function TrendingGames() {
   return (
@@ -31,9 +31,12 @@ export default function TrendingGames() {
                                 <span className='text-slate-700 text-xs'>13k viewers</span>
                                
                             </h5>
-                            <button className='rounded-lg px-3 py-1.5  text-slate-700 text-xs border' style={{borderColor:"#324fe6"}}>
-                                    Join now
-                        </button>
+                            <Link to="/tournaments">
+                                <button className='rounded-lg px-3 py-1.5  text-slate-700 text-xs border' style={{borderColor:"#324fe6"}}>
+                                        Join now
+                            </button>
+                                </Link>
+                           
 
                          </main>
                     </div>

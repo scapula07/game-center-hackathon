@@ -73,7 +73,7 @@ function App() {
       
             <Routes>
                 <Route exact path="/"  element={ <Layout ><Home   /></Layout>} />
-                <Route exact path="/tournament"  element={ <Layout >< Tournament  /></Layout>} />
+                <Route exact path="/tournaments"  element={ <Layout >< Tournament  /></Layout>} />
                 <Route exact path="/livestreaming"  element={ <Layout >< LiveStreaming  /></Layout>} />
                 <Route exact path="/gameroom"  element={ <Layout >< Gameroom  /></Layout>} />
               
