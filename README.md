@@ -43,4 +43,42 @@ Our dapp include the following features;
 4. Analytics 
 
 
+### Details on implementation of hackathon challanges 
+
+###   Integration of Banana wallet sdk
+
+The integration was done using both the Rainbowkit and directly using the Banana wallet sdk.The wallet will be use to sign transactions on chain.
+
+Source code:
+ 1. [Connect wallet file,Banana wallet sdk](https://github.com/scapula07/Game-center/blob/master/client/Azuro/src/components/connectWallet/banana.js)
+ 2. [App.jsx file ,Rainbowkit](https://github.com/scapula07/Game-center/blob/master/client/Azuro/src/App.jsx)
+
+
+###   Use of Gateway Rpc endpoint.
+
+[App.jsx file ,Rainbowkit](https://github.com/scapula07/Game-center/blob/master/client/Azuro/src/App.jsx)
+
+The Rpc point are used dynamically with different chain.
+````
+     const { chains, provider } = configureChains( 
+   
+    [goerli,gnosisChiado],
+ 
+    [
+      jsonRpcProvider({
+        rpc: (chain) => ({
+          https: `https://rpc.${chain.id}.gateway.fm`
+         
+        }),
+      }),
+    ],
+  );
+
+
+
+````
+
+
+
+
 
