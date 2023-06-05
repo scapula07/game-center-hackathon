@@ -15,8 +15,12 @@ import LivePlayer from "./player"
 import { usePrepareContractWrite,useContractWrite ,useWaitForTransaction,} from 'wagmi'
 import { io } from "socket.io-client";
 import { useAccount } from 'wagmi'
+import { useLocation,useParams} from "react-router-dom";
 
 export default function LiveStreaming() {
+  const location =useLocation()
+  const [locationState,setlocationState] = useState(location.state)
+
   
   const { isConnected ,address} = useAccount();
 
@@ -84,7 +88,7 @@ export default function LiveStreaming() {
    
             write?.({
               args: [69],
-              from: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+              from: address,
               value: parseEther('0.01'),
             })
 
@@ -118,7 +122,10 @@ export default function LiveStreaming() {
           <div className='flex w-full h-full space-x-10'>
               <main className='h-screen rounded-md flex flex-col overflow-y-scroll'  style={{width:"65%"}}>
                 <div className='' style={{height:"70%"}}>
-                  <LivePlayer onGoingStreams={onGoingStreams}/>
+                  <LivePlayer 
+                    onGoingStreams={onGoingStreams}
+                     game={locationState}
+                    />
                   <BetBoard />
                 </div>
 

@@ -9,6 +9,7 @@ import { db } from '../../firebase'
 const Grid=()=>{
     const [trigger,setTrigger] =useState(false)
     const [tournaments, setTournaments] = useState([])
+    const [selectedGame,SetGame]=useState({})
 
     useEffect(() => {
         const getAllTournaments = async () => {
@@ -35,7 +36,7 @@ const Grid=()=>{
             {tournaments.map((tournament)=>{
                  return(
                     <>
-                    <div className='flex flex-col space-y-1 rounded-xl shadow-xl hover:shadow-blue-700' onClick={()=>setTrigger(true)}> 
+                    <div className='flex flex-col space-y-1 rounded-xl shadow-xl hover:shadow-blue-700' onClick={()=>setTrigger(true) || SetGame(tournament)}> 
                        
                        
                        <img src={tournament?.img}/>
@@ -70,21 +71,44 @@ const Grid=()=>{
                         </main>
                           <div className='w-full '>
                             <div className='relative'>
-                               <img src={game} className="w-full h-60 "/>
+                               <img src={selectedGame?.img} className="w-full h-60 "/>
                                 <div className='absolute z-20 bottom-0 py-4 right-0 px-4'>
-                                       <Link to={"/gameroom"}>
+                                     
+                                       {selectedGame?.outcome==="pending"?
+                                       <Link  to={`/livestreaming`}
+                                            state={{
+                                                selectedGame
+                                             }}
+                                           >
+                                            <button className='px-6 py-2  rounded-xl font-semibold hover:shadow-blue-700  hover:shadow-lg' style={{background:"#1FBDC7"}} >
+                                                Bets
+                                            </button>
+                                         </Link>
+                                        :
+                                        <Link to={"/gameroom"}>
                                         <button className='px-6 py-2  rounded-xl font-semibold hover:shadow-blue-700  hover:shadow-lg' style={{background:"#1FBDC7"}} >
-                                        Play
+                                          Play
                                         </button>
                                         </Link>
+
+                                       }
+                        
+                                       
+                                       
 
                                  </div>
                             </div>
                             <div className='px-4 py-6'>
                                 <div className='flex py-4 items-center space-x-4'>
                                      <h5 className='text-xs font-semibold text-slate-400'>24k viewers</h5>
-                                     <h5 className='text-xs font-semibold'>Live(ongoing)</h5>
+                                     {selectedGame?.outcome==="pending"?
+                                        <h5 className='text-xs '>Live(ongoing)</h5>
+                                        :
+                                        <h5 className='text-xs '>Coming soon</h5>
 
+                                       }
+                        
+                                   
                                 </div>
                                 <p className='text-xs font-semibold'>
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,

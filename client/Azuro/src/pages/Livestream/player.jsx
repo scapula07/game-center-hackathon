@@ -9,12 +9,15 @@ import {
 } from '@livepeer/react';
 
 
-export default function LivePlayer({onGoingStreams}) {
+export default function LivePlayer({onGoingStreams,game}) {
   // const [players,setPlayers]=useState([1])
   let count=onGoingStreams.length >1 ? "2":"1"
   return (
     <div className='h-4/5  w-full flex flex-col space-y-4  '>
           <div className='h-full flex flex-col w-full rounded-lg ' style={{background:"#212044"}}>
+            {onGoingStreams.length >1 ?
+
+            
             <div className={`mt-5 lg:mt-[33px] space-y-10 md:space-y-0 md:gap-5 lg:gap-6 grid grid-cols-${count} w-full h-full px-4`}>
                  {onGoingStreams.map((stream)=>{
                      return(
@@ -33,6 +36,17 @@ export default function LivePlayer({onGoingStreams}) {
                  }
 
             </div>
+            :
+            <main className='w-full h-full relative'>
+               <img src={game?.selectedGame?.img} className="w-full h-full"/>
+
+               <div className='absolute h-full w-full top-0 flex items-center justify-center '>
+                  <h5 className='text-3xl font-semibold '>Player 1 vs Player 2</h5>
+
+               </div>
+            </main>
+
+           }
        
 
                 
