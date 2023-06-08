@@ -13,6 +13,6 @@ ChainID = '5'
 
 [[EVM.Nodes]]
 Name = 'Goerli'
-WSURL = 'wss://goerli.infura.io/ws/v3/85fc7c4c61664a96808975adbb581787
-HTTPURL = 'https://goerli.infura.io/v3/85fc7c4c61664a96808975adbb581787'
+WSURL = 'wss://eth-goerli.g.alchemy.com/v2/sgcBjikzerJibFP56D_ohhvTV54WChaZ'
+HTTPURL = 'https://eth-goerli.g.alchemy.com/v2/sgcBjikzerJibFP56D_ohhvTV54WChaZ'
 

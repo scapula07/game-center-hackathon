@@ -12,7 +12,6 @@ import {AiOutlineClose} from "react-icons/ai"
 import { collection, addDoc } from "firebase/firestore"; 
 import { db } from '../../firebase'
 import LivePlayer from "./player"
-import { usePrepareContractWrite,useContractWrite ,useWaitForTransaction,} from 'wagmi'
 import { io } from "socket.io-client";
 import { useAccount } from 'wagmi'
 import { useLocation,useParams} from "react-router-dom";
@@ -22,7 +21,7 @@ export default function LiveStreaming() {
   const [locationState,setlocationState] = useState(location.state)
 
   
-  const { isConnected ,address} = useAccount();
+
 
    const [leaderboard,setboard]=useState(false)
    const [trigger,setTrigger] =useState(false)
@@ -37,21 +36,7 @@ export default function LiveStreaming() {
    
    const socket = useRef();
   
-   const { config } = usePrepareContractWrite({
-      address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
-      abi:contractAbi,
-      functionName: 'placeBet',
-  })
 
-  const { write ,data} = useContractWrite(config)
-
-  const { isLoading, isSuccess } = useWaitForTransaction({
-       hash: data?.hash,
-  })
-  // function scrollToBottom() {
-      
-  //     chatBox.current.scrollTop = chatBox.current.scrollHeight;
-  //    }
  
    useEffect(() => {
           const betArray=[]
@@ -86,12 +71,8 @@ export default function LiveStreaming() {
    const placeBet=async()=>{
 
    
-            write?.({
-              args: [69],
-              from: address,
-              value: parseEther('0.01'),
-            })
-
+     
+    
           const bet={
             amount:betAmount,
             choiceOfPlayer:betChoice,

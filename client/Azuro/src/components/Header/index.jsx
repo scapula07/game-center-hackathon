@@ -4,7 +4,7 @@ import {BsCartFill} from "react-icons/bs"
 import {AiOutlineHeart} from "react-icons/ai"
 import { Link } from 'react-router-dom'
 import SearchBar from '../SearchBar'
-import ConnectWallet from '../connectWallet'
+import ConnectAccount from "../connectWallet"
 
 export default function Header() {
   return (
@@ -25,9 +25,8 @@ export default function Header() {
 
              </main>
              <main className='flex items-center'>
-                 {/* <button className='text-white px-4 py-2 rounded'>Signup</button>
-                 <button>Login</button> */}
-                 <ConnectWallet />
+           
+                 <ConnectAccount />
 
              </main>
 
