@@ -10,6 +10,8 @@ HTTPSPort = 0
 
 [[EVM]]
 ChainID = '5'
+LinkContractAddress = '0x326C977E6efc84E512bB9C30f76E30c160eD06FB'
+MinContractPayment = '0.000000001 link'
 
 [[EVM.Nodes]]
 Name = 'Goerli'

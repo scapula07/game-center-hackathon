@@ -15,10 +15,27 @@ import LivePlayer from "./player"
 import { io } from "socket.io-client";
 import { useAccount } from 'wagmi'
 import { useLocation,useParams} from "react-router-dom";
+import Web3 from "web3";
+import betAbi from "../../ContractAbi/gameBetting.json"
+
+
+export const BettingContractAddress="0x7eb2973a223FFdd4f5E9835C6A81ade6EF640D9B"
+
+
+
 
 export default function LiveStreaming() {
+  const web3 = new Web3(window.ethereum)
+
+  const betContract = new web3.eth.Contract(
+    betAbi,
+    BettingContractAddress
+   )
+
+  const address=useRecoilValue(AccountState)
   const location =useLocation()
   const [locationState,setlocationState] = useState(location.state)
+
 
   
 
@@ -72,7 +89,7 @@ export default function LiveStreaming() {
 
    
      
-    
+
           const bet={
             amount:betAmount,
             choiceOfPlayer:betChoice,
@@ -80,11 +97,14 @@ export default function LiveStreaming() {
             date:new Date()
           }
           socket.current.emit("place bet",bet);
-          // socket.current.emit("live chat",{sender:address,message:message});
+       
 
 
           try{
             const docRef = await addDoc(collection(db, "bets"),bet);
+            const tx1= await betContract.methods.createBackBet(odds,betAmount,betChoice).send({from:address})
+            const tx2 = await betContract.methods.createLayBet(odds,betAmount,betChoice).send({from:address})
+   
             
           }catch(e){
               console.log(e)
